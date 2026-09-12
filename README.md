@@ -14,7 +14,7 @@ Open `http://localhost:5173`. Seeded passwords are `Password123!`; users include
 
 ## Architecture
 
-The API uses Express plus Prisma: controllers delegate authorization decisions to a policy layer, so protected routes never rely on client-side hiding. Access tokens are short-lived bearer JWTs; refresh tokens are long-lived JWTs in a `HttpOnly`, `SameSite=Lax` cookie and are rotated when refreshed. Socket.io was selected for room membership, acknowledgement semantics and a robust browser client. A socket is authenticated with the same access token and joins only policy-approved project rooms; user rooms power notification counts.
+The API uses Express pluAs Prisma: controllers delegate authorization decisions to a policy layer, so protected routes never rely on client-side hiding. Access tokens are short-lived bearer JWTs; refresh tokens are long-lived JWTs in a `HttpOnly`, `SameSite=Lax` cookie and are rotated when refreshed. Socket.io was selected for room membership, acknowledgement semantics and a robust browser client. A socket is authenticated with the same access token and joins only policy-approved project rooms; user rooms power notification counts.
 
 `node-cron` marks open tasks overdue every five minutes. This is adequate for one API instance; a distributed deployment should replace it with BullMQ/Redis so only one worker runs. The schema indexes foreign keys and main list predicates (`projectId`, `assigneeId`, status, due date, created time) to keep scoped dashboards and activity catch-up queries fast.
 
