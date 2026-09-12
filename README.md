@@ -30,7 +30,7 @@ All errors follow `{ error: { code, message, details? } }`. Task filters are que
 
 Presence is process-local and thus needs a Socket.io Redis adapter for multi-instance hosting. The included compose file runs Postgres only; deploy the API separately from a static Vite frontend, or use a persistent Node host for WebSockets.
 
-## Assessment explanation (194 words)
+## Assessment explanation 
 
 The hardest part was treating real-time delivery as an authorization problem rather than a broadcasting problem. An activity can be visible to an admin, the owning project manager, and an assigned developer, but not to every connected user. I made the database the source of truth: a task-status transaction first updates the task, inserts its activity row, and creates any notification. Only after that transaction succeeds does the service emit an event. This prevents clients from receiving events that cannot be recovered after a failed write.
 
